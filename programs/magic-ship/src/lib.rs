@@ -23,7 +23,7 @@ pub enum ErrorCode {
 
 #[ephemeral]
 #[program]
-pub mod private_payments {
+pub mod magic_ship {
     use anchor_spl::token::{transfer_checked, TransferChecked};
 
     use super::*;

@@ -1,5 +1,5 @@
-import Simple from '@/views/simple';
-
-export default function SimplePage() {
-  return <Simple />;
+export default function Home() {
+  return (
+    <main></main>
+  )
 }

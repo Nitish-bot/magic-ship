@@ -2,3 +2,9 @@
 /target/
 /dist/
 .env
+
+/frontend/node_modules
+/frontend/dist
+/frontend/old
+/frontend/.env
+/frontend/.next

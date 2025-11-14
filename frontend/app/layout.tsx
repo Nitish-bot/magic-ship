@@ -1,14 +1,12 @@
-import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
 import '@/styles/index.css';
 
 export const metadata = {
-  title: 'Private Payments',
-  description: 'Private payments for Solana by MagicBlock',
+  title: 'Magic Ship',
+  description: 'Private game of battleships on Solana using MagicBlock',
   openGraph: {
-    title: 'Private Payments',
-    description: 'Private payments for Solana by MagicBlock',
-    url: 'https://private-payments.magicblock.app',
+    title: 'Magic Ship',
+    description: 'Private game of battleships on Solana using MagicBlock',
+    url: 'https://frooty.ninja/magic-ship',
     images: ['/icon.png'],
   },
 };
@@ -18,17 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <>
       <html lang='en' suppressHydrationWarning>
         <head />
-        <body>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='dark'
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-          <Toaster richColors closeButton position='top-center' />
-        </body>
+        <body>{children}</body>
       </html>
     </>
   );
