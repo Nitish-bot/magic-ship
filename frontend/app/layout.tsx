@@ -1,6 +1,7 @@
 import '@/styles/index.css';
 
 export const metadata = {
+  metadataBase: new URL('https://frooty.ninja/magic-ship'),
   title: 'Magic Ship',
   description: 'Private game of battleships on Solana using MagicBlock',
   openGraph: {
@@ -16,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <>
       <html lang='en' suppressHydrationWarning>
         <head />
-        <body>{children}</body>
+        <body className='bg-black'>{children}</body>
       </html>
     </>
   );
