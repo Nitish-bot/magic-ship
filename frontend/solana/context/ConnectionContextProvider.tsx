@@ -1,7 +1,7 @@
-import { type ReactNode, useContext, useMemo } from "react";
-import { ChainContext } from "./ChainContext";
-import { type ConnectionContextType, ConnectionContext } from "./ConnectionContext";
-import { connect } from "solana-kite";
+import { type ReactNode, useContext, useMemo } from 'react';
+import { connect } from 'solana-kite';
+import { ChainContext } from './ChainContext';
+import { type ConnectionContextType, ConnectionContext } from './ConnectionContext';
 
 // Define the props type
 type ConnectionContextProviderProps = {
@@ -19,9 +19,5 @@ export function ConnectionContextProvider({ children }: ConnectionContextProvide
     };
   }, [solanaRpcSubscriptionsUrl, solanaRpcUrl]);
 
-  return (
-    <ConnectionContext.Provider value={contextValue}>
-      {children}
-    </ConnectionContext.Provider>
-  );
+  return <ConnectionContext.Provider value={contextValue}>{children}</ConnectionContext.Provider>;
 }

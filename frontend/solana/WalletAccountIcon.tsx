@@ -1,7 +1,7 @@
-import type { UiWalletAccount } from "@wallet-standard/react";
-import { uiWalletAccountBelongsToUiWallet, useWallets } from "@wallet-standard/react";
-import Image, { ImageProps} from "next/image";
-import React from "react";
+import type { UiWalletAccount } from '@wallet-standard/react';
+import { uiWalletAccountBelongsToUiWallet, useWallets } from '@wallet-standard/react';
+import Image, { ImageProps } from 'next/image';
+import React from 'react';
 
 type Props = Partial<ImageProps> &
   Readonly<{

@@ -5,12 +5,15 @@ import {
   uiWalletAccountBelongsToUiWallet,
   uiWalletAccountsAreSame,
   useWallets,
-} from "@wallet-standard/react";
-import { useEffect, useMemo, useState } from "react";
+} from '@wallet-standard/react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { SelectedWalletAccountContext, type SelectedWalletAccountState } from "./SelectedWalletAccountContext";
+import {
+  SelectedWalletAccountContext,
+  type SelectedWalletAccountState,
+} from './SelectedWalletAccountContext';
 
-const STORAGE_KEY = "cascade:selected-wallet-and-address";
+const STORAGE_KEY = 'cascade:selected-wallet-and-address';
 
 let wasSetterInvoked = false;
 function getSavedWalletAccount(wallets: readonly UiWallet[]): UiWalletAccount | undefined {
@@ -20,10 +23,10 @@ function getSavedWalletAccount(wallets: readonly UiWallet[]): UiWalletAccount | 
     return;
   }
   const savedWalletNameAndAddress = localStorage.getItem(STORAGE_KEY);
-  if (!savedWalletNameAndAddress || typeof savedWalletNameAndAddress !== "string") {
+  if (!savedWalletNameAndAddress || typeof savedWalletNameAndAddress !== 'string') {
     return;
   }
-  const [savedWalletName, savedAccountAddress] = savedWalletNameAndAddress.split(":");
+  const [savedWalletName, savedAccountAddress] = savedWalletNameAndAddress.split(':');
   if (!savedWalletName || !savedAccountAddress) {
     return;
   }
@@ -45,17 +48,20 @@ function getSavedWalletAccount(wallets: readonly UiWallet[]): UiWalletAccount | 
  */
 export function SelectedWalletAccountContextProvider({ children }: { children: React.ReactNode }) {
   const wallets = useWallets();
-  const [selectedWalletAccount, setSelectedWalletAccountInternal] = useState<SelectedWalletAccountState>(() =>
-    getSavedWalletAccount(wallets),
-  );
-  const setSelectedWalletAccount: React.Dispatch<React.SetStateAction<SelectedWalletAccountState>> = (
-    setStateAction,
-  ) => {
-    setSelectedWalletAccountInternal((prevSelectedWalletAccount) => {
+  const [selectedWalletAccount, setSelectedWalletAccountInternal] =
+    useState<SelectedWalletAccountState>(() => getSavedWalletAccount(wallets));
+  const setSelectedWalletAccount: React.Dispatch<
+    React.SetStateAction<SelectedWalletAccountState>
+  > = setStateAction => {
+    setSelectedWalletAccountInternal(prevSelectedWalletAccount => {
       wasSetterInvoked = true;
       const nextWalletAccount =
-        typeof setStateAction === "function" ? setStateAction(prevSelectedWalletAccount) : setStateAction;
-      const accountKey = nextWalletAccount ? getUiWalletAccountStorageKey(nextWalletAccount) : undefined;
+        typeof setStateAction === 'function'
+          ? setStateAction(prevSelectedWalletAccount)
+          : setStateAction;
+      const accountKey = nextWalletAccount
+        ? getUiWalletAccountStorageKey(nextWalletAccount)
+        : undefined;
       if (accountKey) {
         localStorage.setItem(STORAGE_KEY, accountKey);
       } else {
@@ -66,10 +72,12 @@ export function SelectedWalletAccountContextProvider({ children }: { children: R
   };
   useEffect(() => {
     const savedWalletAccount = getSavedWalletAccount(wallets);
-    if (savedWalletAccount) {
+    if (savedWalletAccount &&
+        !uiWalletAccountsAreSame(savedWalletAccount, selectedWalletAccount!)
+    ) {
       setSelectedWalletAccountInternal(savedWalletAccount);
     }
-  }, [wallets]);
+  }, [wallets, selectedWalletAccount]);
   const walletAccount = useMemo(() => {
     if (selectedWalletAccount) {
       for (const uiWallet of wallets) {
@@ -78,7 +86,10 @@ export function SelectedWalletAccountContextProvider({ children }: { children: R
             return uiWalletAccount;
           }
         }
-        if (uiWalletAccountBelongsToUiWallet(selectedWalletAccount, uiWallet) && uiWallet.accounts[0]) {
+        if (
+          uiWalletAccountBelongsToUiWallet(selectedWalletAccount, uiWallet) &&
+          uiWallet.accounts[0]
+        ) {
           // If the selected account belongs to this connected wallet, at least, then
           // select one of its accounts.
           return uiWallet.accounts[0];

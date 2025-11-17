@@ -35,6 +35,7 @@ const eslintConfig = defineConfig([
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling'],
         },
       ],
+      'react-hooks/set-state-in-effect': 'off',
     },
   },
   // Override default ignores of eslint-config-next.

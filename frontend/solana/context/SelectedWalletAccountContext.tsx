@@ -1,5 +1,5 @@
-import type { UiWalletAccount } from "@wallet-standard/react";
-import { createContext } from "react";
+import type { UiWalletAccount } from '@wallet-standard/react';
+import { createContext } from 'react';
 
 export type SelectedWalletAccountState = UiWalletAccount | undefined;
 

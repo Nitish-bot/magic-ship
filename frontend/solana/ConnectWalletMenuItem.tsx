@@ -1,21 +1,21 @@
-import type { UiWallet, UiWalletAccount } from "@wallet-standard/react";
-import { uiWalletAccountsAreSame, useConnect, useDisconnect } from "@wallet-standard/react";
-import { ArrowRight } from "lucide-react";
-import { useCallback, useContext } from "react";
+import type { UiWallet, UiWalletAccount } from '@wallet-standard/react';
+import { uiWalletAccountsAreSame, useConnect, useDisconnect } from '@wallet-standard/react';
+import { ArrowRight } from 'lucide-react';
+import { useCallback, useContext } from 'react';
 
 import {
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-    DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 
-import { WalletMenuItemContent } from "@/solana/WalletMenuItemContent";
-import { SelectedWalletAccountContext } from "@/solana/context/SelectedWalletAccountContext";
+import { WalletMenuItemContent } from '@/solana/WalletMenuItemContent';
+import { SelectedWalletAccountContext } from '@/solana/context/SelectedWalletAccountContext';
 
 type Props = Readonly<{
   onAccountSelect(account: UiWalletAccount | undefined): void;
@@ -36,7 +36,11 @@ export function ConnectWalletMenuItem({ onAccountSelect, onDisconnect, onError, 
       const nextAccounts = await connect();
       // Try to choose the first never-before-seen account.
       for (const nextAccount of nextAccounts) {
-        if (!existingAccounts.some((existingAccount) => uiWalletAccountsAreSame(nextAccount, existingAccount))) {
+        if (
+          !existingAccounts.some(existingAccount =>
+            uiWalletAccountsAreSame(nextAccount, existingAccount)
+          )
+        ) {
           onAccountSelect(nextAccount);
           return;
         }
@@ -60,7 +64,7 @@ export function ConnectWalletMenuItem({ onAccountSelect, onDisconnect, onError, 
       <DropdownMenuSubContent>
         <DropdownMenuLabel>Accounts</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={selectedWalletAccount?.address}>
-          {wallet.accounts.map((account) => (
+          {wallet.accounts.map(account => (
             <DropdownMenuRadioItem
               key={account.address}
               value={account.address}
@@ -74,7 +78,7 @@ export function ConnectWalletMenuItem({ onAccountSelect, onDisconnect, onError, 
         </DropdownMenuRadioGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onSelect={async (event) => {
+          onSelect={async event => {
             event.preventDefault();
             await handleConnectClick();
           }}
@@ -82,8 +86,8 @@ export function ConnectWalletMenuItem({ onAccountSelect, onDisconnect, onError, 
           Connect More
         </DropdownMenuItem>
         <DropdownMenuItem
-          color="red"
-          onSelect={async (event) => {
+          color='red'
+          onSelect={async event => {
             event.preventDefault();
             try {
               await disconnect();

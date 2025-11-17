@@ -1,5 +1,5 @@
-import { createContext } from "react";
-import { connect } from "solana-kite";
+import { createContext } from 'react';
+import { connect } from 'solana-kite';
 
 // Define the type for our context
 export type ConnectionContextType = {
@@ -8,7 +8,7 @@ export type ConnectionContextType = {
 
 // Create default values
 const defaultConnectionContext: ConnectionContextType = {
-  connection: connect("devnet"),
+  connection: connect('devnet'),
 };
 
 // Create the context

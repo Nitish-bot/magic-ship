@@ -1,30 +1,27 @@
-'use client'
+'use client';
 
-import { StandardConnect, StandardDisconnect } from "@wallet-standard/core";
-import type { UiWallet } from "@wallet-standard/react";
-import { uiWalletAccountBelongsToUiWallet, useWallets } from "@wallet-standard/react";
-import { FileExclamationPoint } from "lucide-react";
-import { CornerRightDown } from "lucide-react";
-import { useContext, useRef, useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { ErrorDialog } from "@/components/ErrorDialog";
+import { StandardConnect, StandardDisconnect } from '@wallet-standard/core';
+import type { UiWallet } from '@wallet-standard/react';
+import { uiWalletAccountBelongsToUiWallet, useWallets } from '@wallet-standard/react';
+import { FileExclamationPoint } from 'lucide-react';
+import { CornerRightDown } from 'lucide-react';
+import { useContext, useRef, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorDialog } from '@/components/ErrorDialog';
 
-import {
-  Alert,
-  AlertTitle,
-} from '@/components/ui/alert';
+import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
-import { SelectedWalletAccountContext } from "@/solana/context/SelectedWalletAccountContext";
-import { ConnectWalletMenuItem } from "@/solana/ConnectWalletMenuItem";
-import { UnconnectableWalletMenuItem } from "@/solana/UnconnectableWalletMenuItem";
-import { WalletAccountIcon } from "@/solana/WalletAccountIcon";
+import { ConnectWalletMenuItem } from '@/solana/ConnectWalletMenuItem';
+import { UnconnectableWalletMenuItem } from '@/solana/UnconnectableWalletMenuItem';
+import { WalletAccountIcon } from '@/solana/WalletAccountIcon';
+import { SelectedWalletAccountContext } from '@/solana/context/SelectedWalletAccountContext';
 
 type Props = Readonly<{
   children: React.ReactNode;
@@ -33,22 +30,29 @@ type Props = Readonly<{
 export function ConnectWalletMenu({ children }: Props) {
   const { current: NO_ERROR } = useRef(Symbol());
   const wallets = useWallets();
-  const [selectedWalletAccount, setSelectedWalletAccount] = useContext(SelectedWalletAccountContext);
+  const [selectedWalletAccount, setSelectedWalletAccount] = useContext(
+    SelectedWalletAccountContext
+  );
   const [error, setError] = useState(NO_ERROR);
   const [forceClose, setForceClose] = useState(false);
   function renderItem(wallet: UiWallet) {
     return (
       <ErrorBoundary
-        fallbackRender={({ error }) => <UnconnectableWalletMenuItem error={error} wallet={wallet} />}
+        fallbackRender={({ error }) => (
+          <UnconnectableWalletMenuItem error={error} wallet={wallet} />
+        )}
         key={`wallet:${wallet.name}`}
       >
         <ConnectWalletMenuItem
-          onAccountSelect={(account) => {
+          onAccountSelect={account => {
             setSelectedWalletAccount(account);
             setForceClose(true);
           }}
-          onDisconnect={(wallet) => {
-            if (selectedWalletAccount && uiWalletAccountBelongsToUiWallet(selectedWalletAccount, wallet)) {
+          onDisconnect={wallet => {
+            if (
+              selectedWalletAccount &&
+              uiWalletAccountBelongsToUiWallet(selectedWalletAccount, wallet)
+            ) {
               setSelectedWalletAccount(undefined);
             }
           }}
@@ -60,19 +64,25 @@ export function ConnectWalletMenu({ children }: Props) {
   }
   const walletsThatSupportStandardConnect = [];
   for (const wallet of wallets) {
-    if (wallet.features.includes(StandardConnect) 
-      && wallet.features.includes(StandardDisconnect) && wallet.chains.includes('solana:devnet')) {
+    if (
+      wallet.features.includes(StandardConnect) &&
+      wallet.features.includes(StandardDisconnect) &&
+      wallet.chains.includes('solana:devnet')
+    ) {
       walletsThatSupportStandardConnect.push(wallet);
     }
   }
   return (
     <>
-      <DropdownMenu open={forceClose ? false : undefined} onOpenChange={setForceClose.bind(null, false)}>
+      <DropdownMenu
+        open={forceClose ? false : undefined}
+        onOpenChange={setForceClose.bind(null, false)}
+      >
         <DropdownMenuTrigger asChild>
-          <Button variant={"secondary"}>
+          <Button variant={'secondary'}>
             {selectedWalletAccount ? (
               <>
-                <WalletAccountIcon account={selectedWalletAccount} width="18" height="18" />
+                <WalletAccountIcon account={selectedWalletAccount} width='18' height='18' />
                 {selectedWalletAccount.address.slice(0, 8)}
               </>
             ) : (
@@ -83,14 +93,12 @@ export function ConnectWalletMenu({ children }: Props) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {wallets.length === 0 ? (
-            <Alert color="orange">
+            <Alert color='orange'>
               <FileExclamationPoint />
               <AlertTitle>This browser has no wallets installed.</AlertTitle>
             </Alert>
           ) : (
-            <>
-              {walletsThatSupportStandardConnect.map(renderItem)}
-            </>
+            <>{walletsThatSupportStandardConnect.map(renderItem)}</>
           )}
         </DropdownMenuContent>
       </DropdownMenu>

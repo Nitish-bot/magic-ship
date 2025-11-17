@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogTitle,
   AlertDialogDescription,
   AlertDialogAction,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { getErrorMessage } from "@/lib/errors";
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { getErrorMessage } from '@/lib/errors';
 
 type Props = Readonly<{
   error: unknown;
@@ -20,7 +20,7 @@ export function ErrorDialog({ error, onClose, title }: Props) {
   return (
     <AlertDialog
       open={isOpen}
-      onOpenChange={(open) => {
+      onOpenChange={open => {
         if (!open) {
           if (!onClose || onClose() !== false) {
             setIsOpen(false);
@@ -29,14 +29,16 @@ export function ErrorDialog({ error, onClose, title }: Props) {
       }}
     >
       <AlertDialogContent>
-        <AlertDialogTitle color="red">{title ?? "We encountered the following error"}</AlertDialogTitle>
+        <AlertDialogTitle color='red'>
+          {title ?? 'We encountered the following error'}
+        </AlertDialogTitle>
         <AlertDialogDescription>
-          <span className='bg-gray-50 leading-relaxed text-gray-900'>{getErrorMessage(error, "Unknown")}</span>
+          <span className='bg-gray-50 leading-relaxed text-gray-900'>
+            {getErrorMessage(error, 'Unknown')}
+          </span>
         </AlertDialogDescription>
         <div className='flex justify-end mt-4'>
-          <AlertDialogAction>
-            Close
-          </AlertDialogAction>
+          <AlertDialogAction>Close</AlertDialogAction>
         </div>
       </AlertDialogContent>
     </AlertDialog>
