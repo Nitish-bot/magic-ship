@@ -1,6 +1,6 @@
 'use client';
 
-import ColorBends from './ui/ColorBends';
+import ColorBends from './ui/color-bends';
 
 export default function Background() {
   return (

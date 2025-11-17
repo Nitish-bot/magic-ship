@@ -26,8 +26,6 @@ const eslintConfig = defineConfig([
     },
 
     rules: {
-      // --- Your original ESLint rules --------------------------------------
-      'prettier/prettier': 'error',
       '@typescript-eslint/ban-ts-comment': 'off',
       // "@typescript-eslint/no-explicit-any": "off",
       'import/order': [
